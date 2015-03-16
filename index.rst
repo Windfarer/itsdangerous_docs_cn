@@ -11,7 +11,7 @@ itsdangerous 中文文档
 除非他们也有你的密钥。所以只要你保管好你的密钥，并且你的密钥足够复杂，
 一切就OK了。
 
-itsdangerous内部默认使用了HMAC和SHA1来签名，基于`Django 签名模块
+itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模块
 <https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web Signatures (JWS)
 这个库采用BSD协议，由Armin Ronacher编写。though most of the copyright for the design and
 implementation goes to Simon Willison and the other amazing Django people
