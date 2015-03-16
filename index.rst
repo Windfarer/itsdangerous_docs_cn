@@ -7,15 +7,13 @@ itsdangerous 中文文档
 这个窍门就是签名。使用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
 后的数据传递给别人。当你取回数据时，你可以确保没人篡改过这份数据。  
 
-Granted, the receiver can decode the contents and look into the package,
-but they can not modify the contents unless they also have your secret
-key.  So if you keep the key secret and complex, you will be fine.
+的确，接收者可以破译内容，来看看你的包裹里有什么，但是他们不能修改内容，
+除非他们也有你的密钥。所以只要你保管好你的密钥，并且你的密钥足够复杂，
+一切就OK了。
 
-Internally itsdangerous uses HMAC and SHA1 for signing by default and bases the
-implementation on the `Django signing module
-<https://docs.djangoproject.com/en/dev/topics/signing/>`_.  It also
-however supports JSON Web Signatures (JWS).  The library is BSD licensed and
-written by Armin Ronacher though most of the copyright for the design and
+itsdangerous内部默认使用了HMAC和SHA1来签名，基于`Django 签名模块
+<https://docs.djangoproject.com/en/dev/topics/signing/>`。它也支持JSON Web Signatures (JWS)
+这个库采用BSD协议，由Armin Ronacher编写。though most of the copyright for the design and
 implementation goes to Simon Willison and the other amazing Django people
 that made this library possible.
 
