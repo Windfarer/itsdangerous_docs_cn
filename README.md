@@ -1,2 +1,2 @@
 # itsdangerous_docs_cn
-itsdangerous Simplify Chinese Translation, by Windfarer
+itsdangerous Simplified Chinese Translation, by Windfarer
