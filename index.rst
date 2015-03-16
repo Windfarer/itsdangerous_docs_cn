@@ -12,31 +12,26 @@ itsdangerous 中文文档
 一切就OK了。
 
 itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模块
-<https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web Signatures (JWS)
-这个库采用BSD协议，由Armin Ronacher编写。though most of the copyright for the design and
-implementation goes to Simon Willison and the other amazing Django people
-that made this library possible.
+<https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web Signatures (JWS)。
+这个库采用BSD协议，由Armin Ronacher编写，而大部分设计与实现的版权归Simon Willison和
+其他的把这个库变为现实的Django爱好者们。
 
-Installation
+安装
 ------------
 
-You can get the library directly from PyPI::
+你可以从PyPI上直接安装这个库::
 
     pip install itsdangerous
 
-Example Use Cases
+适用案例
 -----------------
-
--   You can serialize and sign a user ID for unsubscribing of newsletters
-    into URLs.  This way you don't need to generate one-time tokens and
-    store them in the database.  Same thing with any kind of activation
-    link for accounts and similar things.
--   Signed objects can be stored in cookies or other untrusted sources
-    which means you don't need to have sessions stored on the server, which
-    reduces the number of necessary database queries.
--   Signed information can safely do a roundtrip between server and client
-    in general which makes them useful for passing server-side state to a
-    client and then back.
+-   在取消订阅某个通讯时，你可以在URL里序列化并且签名一个用户的ID。这种情况下
+    你不需要生成一个一次性的token并把它们存到数据库中。在任何的激活账户
+    的链接或类似的情形下，同样适用。
+-   被签名的对象可以被存入cookie中或其他不被信任的来源，这意味着你不需要在服务端
+    保存session，这将降低数据库读取的次数。
+-   通常签名信息可以安全地往返与服务端与客户端之间，可以把这个特性用于将服务端的
+    状态传递到客户端再传递回来。
 
 Signing Interface
 -----------------
