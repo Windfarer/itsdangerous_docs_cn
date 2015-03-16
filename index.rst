@@ -162,20 +162,19 @@ Traceback (most recent call last):
   ...
 itsdangerous.BadSignature: Signature "kubVFOOugP5PAIfEqLJbXQbfTxs" does not match
 
-Only the serializer with the same salt can load the value:
+只有使用相同盐的序列化器才能成功把值加载出来：
 
 >>> s2.loads(s2.dumps(42))
 42
 
-Responding to Failure
+对失败的响应
 ---------------------
 
-Starting with itsdangerous 0.14 exceptions have helpful attributes which
-allow you to inspect payload if the signature check failed.  This has to
-be done with extra care because at that point you know that someone
-tampered with your data but it might be useful for debugging purposes.
+从itsdangerous 0.14版本开始，异常会有一些有用的属性，可以允许你在签名检查失败时，
+检查你的数据。这里必须极其小心，因为这个时候，你知道有某人修改了你的数据。
+但这可能对你debug很有帮助。
 
-Example usage::
+示例用法::
 
     from itsdangerous import URLSafeSerializer, BadSignature, BadData
     s = URLSafeSerializer('secret-key')
@@ -190,20 +189,17 @@ Example usage::
                 decoded_payload = s.load_payload(encoded_payload)
             except BadData:
                 pass
-            # This payload is decoded but unsafe because someone
-            # tampered with the signature.  The decode (load_payload)
-            # step is explicit because it might be unsafe to unserialize
-            # the payload (think pickle instead of json!)
+            # 这里的数据被解码出来，但是不是安全的，因为有某人改动了签名。
+            # 解码步骤(load_payload)是显式的，因为将数据反序列化可能是不安全的
+            #（请设想被解码的不是json,而是pickle）
 
-If you don't want to inspect attributes to figure out what exactly went
-wrong you can also use the unsafe loading::
+如果你不想检查属性来指出到底是哪里出错了，你也可以使用不安全的加载方式::
 
     from itsdangerous import URLSafeSerializer
     s = URLSafeSerializer('secret-key')
     sig_okay, payload = s.loads_unsafe(data)
 
-The first item in the returned tuple is a boolean that indicates if the
-signature was correct.
+返回的元组中第一项是一个布尔值，表明了签名是否是正确的。
 
 Python 3 提示
 --------------
