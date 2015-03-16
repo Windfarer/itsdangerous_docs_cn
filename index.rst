@@ -43,7 +43,7 @@ itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模
 >>> s.sign('my string')
 'my string.wh6tMHxLgJqB6oY1uT73iMlyrOA'
     
-签名会被加在字符串尾部，中间由句号 (``.``)分隔。验证字符串，使用 :meth:`~Signer.unsign`
+签名会被加在字符串尾部，中间由句号 (``.``)分隔。验证字符串，使用 :meth:`~Signer.unsign` 
 方法：
 
 >>> s.unsign('my string.wh6tMHxLgJqB6oY1uT73iMlyrOA')
@@ -62,7 +62,7 @@ itsdangerous.BadSignature: Signature "wh6tMHxLgJqB6oY1uT73iMlyrOX" does not matc
 使用时间戳签名
 --------------------------
 
-如果你想要可以过期的签名，可以使用 :class:`TimestampSigner`类，它会加入时间戳信息并签名。
+如果你想要可以过期的签名，可以使用 :class:`TimestampSigner` 类，它会加入时间戳信息并签名。
 在反签名时，你可以验证时间戳有没有过期：
 
 >>> from itsdangerous import TimestampSigner
@@ -90,7 +90,7 @@ itsdangerous.SignatureExpired: Signature age 15 > 5 seconds
 >>> s.loads('[1, 2, 3, 4].r7R9RhGgDPvvWl3iNzLuIIfELmo')
 [1, 2, 3, 4]
 
-如果你想要带一个时间戳，你可以用 :class:`TimedSerializer`类。
+如果你想要带一个时间戳，你可以用 :class:`TimedSerializer` 类。
 
 URL安全序列化
 ----------------------
@@ -118,8 +118,8 @@ the JSON Web Signature (JWS) [``draft-ietf-jose-json-web-signature``].
 >>> s.dumps({'x': 42})
 'eyJhbGciOiJIUzI1NiJ9.eyJ4Ijo0Mn0.ZdTn1YyGz9Yx5B5wNpWRL221G1WpVE5fPCPKNuc6UAo'
 
-在将值加载回来时，默认会像其他序列化器一样，header不会被返回。但是你可以通过传入
- ``return_header=True``参数来得到header。
+在将值加载回来时，默认会像其他序列化器一样，header不会被返回。但是你可以通过
+传入 ``return_header=True`` 参数来得到header。
 Custom header fields can be provided upon serialization:
 
 >>> s.dumps(0, header_fields={'v': 1})
