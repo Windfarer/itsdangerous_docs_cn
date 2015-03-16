@@ -1,13 +1,11 @@
-itsdangerous
+itsdangerous 中文文档
 ============
 
 .. module:: itsdangerous
 
-Sometimes you just want to send some data to untrusted environments.  But
-how to do this safely?  The trick involves signing.  Given a key only you
-know, you can cryptographically sign your data and hand it over to someone
-else.  When you get the data back you can easily ensure that nobody tampered
-with it.
+有时候你只是想向不被信任的环境发送一些数据，但是，如何安全的干这个事呢？
+这个窍门就是签名。使用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
+后的数据传递给别人。当你取回数据时，你可以确保没人篡改过这份数据。  
 
 Granted, the receiver can decode the contents and look into the package,
 but they can not modify the contents unless they also have your secret
