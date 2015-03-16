@@ -12,7 +12,7 @@ itsdangerous 中文文档
 一切就OK了。
 
 itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模块
-<https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web Signatures (JWS)。
+<https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web 签名 (JWS)。
 这个库采用BSD协议，由Armin Ronacher编写，而大部分设计与实现的版权归Simon Willison和
 其他的把这个库变为现实的Django爱好者们。
 
@@ -62,9 +62,8 @@ itsdangerous.BadSignature: Signature "wh6tMHxLgJqB6oY1uT73iMlyrOX" does not matc
 使用时间戳签名
 --------------------------
 
-If you want to expire signatures you can use the :class:`TimestampSigner`
-class which will additionally put in a timestamp information and sign it.
-On unsigning you can validate that the timestamp did not expire:
+如果你想要可以过期的签名，可以使用 :class:`TimestampSigner`类，它会加入时间戳信息并签名。
+在反签名时，你可以验证时间戳有没有过期：
 
 >>> from itsdangerous import TimestampSigner
 >>> s = TimestampSigner('secret-key')
@@ -74,33 +73,30 @@ Traceback (most recent call last):
   ...
 itsdangerous.SignatureExpired: Signature age 15 > 5 seconds
 
-Serialization
+序列化
 -------------
 
-Because strings are hard to handle this module also provides a
-serialization interface similar to json/pickle and others.  (Internally
-it uses simplejson by default, however this can be changed by subclassing.)
-The :class:`Serializer` class implements that:
+因为字符串难以被处理，本模块也提供了一个类似于json或pickle之类的序列化接口。
+（它内部默认使用simplejson，但是可以由子类来改变。）
+ :class:`Serializer`类实现了：
 
 >>> from itsdangerous import Serializer
 >>> s = Serializer('secret-key')
 >>> s.dumps([1, 2, 3, 4])
 '[1, 2, 3, 4].r7R9RhGgDPvvWl3iNzLuIIfELmo'
 
-And it can of course also load:
+它当然也可以加载数据：
 
 >>> s.loads('[1, 2, 3, 4].r7R9RhGgDPvvWl3iNzLuIIfELmo')
 [1, 2, 3, 4]
 
-If you want to have the timestamp attached you can use the
-:class:`TimedSerializer`.
+如果你想要带一个时间戳，你可以用 :class:`TimedSerializer`类。
 
-URL Safe Serialization
+URL安全序列化
 ----------------------
 
-Often it is helpful if you can pass these trusted strings to environments
-where you only have a limited set of characters available.  Because of
-this, itsdangerous also provides URL safe serializers:
+如果能够向只有字符受限的环境中传递被信任的字符串的话，将会是很有用的。因此，
+itsdangerous也提供了一个URL安全序列化工具：
 
 >>> from itsdangerous import URLSafeSerializer
 >>> s = URLSafeSerializer('secret-key')
@@ -109,10 +105,10 @@ this, itsdangerous also provides URL safe serializers:
 >>> s.loads('WzEsMiwzLDRd.wSPHqC0gR7VUqivlSukJ0IeTDgo')
 [1, 2, 3, 4]
 
-JSON Web Signatures
+JSON Web 签名
 -------------------
 
-Starting with “itsdangerous” 0.18 JSON Web Signatures are also supported.
+从“itsdangerous” 0.18版本开始，也支持了JSON Web签名。
 They generally work very similar to the already existing URL safe
 serializer but will emit headers according to the current draft (10) of
 the JSON Web Signature (JWS) [``draft-ietf-jose-json-web-signature``].
@@ -122,9 +118,8 @@ the JSON Web Signature (JWS) [``draft-ietf-jose-json-web-signature``].
 >>> s.dumps({'x': 42})
 'eyJhbGciOiJIUzI1NiJ9.eyJ4Ijo0Mn0.ZdTn1YyGz9Yx5B5wNpWRL221G1WpVE5fPCPKNuc6UAo'
 
-When loading the value back the header will not be returned by default
-like with the other serializers.  However it is possible to also ask for
-the header by passing ``return_header=True``.
+在将值加载回来时，默认会像其他序列化器一样，header不会被返回。但是你可以通过传入
+ ``return_header=True``参数来得到header。
 Custom header fields can be provided upon serialization:
 
 >>> s.dumps(0, header_fields={'v': 1})
@@ -134,34 +129,27 @@ Custom header fields can be provided upon serialization:
 ...
 (0, {u'alg': u'HS256', u'v': 1})
 
-“itsdangerous” only provides HMAC SHA derivatives and the none algorithm
-at the moment and does not support the ECC based ones.  The algorithm in
-the header is checked against the one of the serializer and on a mismatch
-a :exc:`BadSignature` exception is raised.
+itsdangerous目前只提供HMAC SHA 的派生算法和不使用算法，不支持基于ECC的算法。
+header中的算法将与序列化器中的进行核对，如果不匹配，将引发 :exc:`BadSignature`
+异常。
 
 .. _the-salt:
 
-The Salt
+盐
 --------
 
-All classes also accept a salt argument.  The name might be misleading
-because usually if you think of salts in cryptography you would expect the
-salt to be something that is stored alongside the resulting signed string
-as a way to prevent rainbow table lookups.  Such salts are usually public.
+所有的类都接受一个盐的参数。这名字可能会误导你，因为通常你会认为，密码学中的盐
+会是一个和被签名的字符串储存在一起的东西，用来防止彩虹表查找。这种盐是公开的。
 
-In “itsdangerous”, like in the original Django implementation, the salt
-serves a different purpose.  You could describe it as namespacing.  It's
-still not critical if you disclose it because without the secret key it
-does not help an attacker.
+在itsdangerous中，类似Django中的原始实现，盐是为了一个截然不同的目的而产生的。
+你可以将它解释成命名空间。如果你泄露了它，也不是很严重的问题，因为没有密钥的话，
+它对攻击者没什么帮助。
 
-Let's assume that you have two links you want to sign.  You have the
-activation link on your system which can activate a user account and then
-you have an upgrade link that can upgrade a user's account to a paid
-account which you send out via email.  If in both cases all you sign is
-the user ID a user could reuse the variable part in the URL from the
-activation link to upgrade the account.  Now you could either put more
-information in there which you sign (like the intention: upgrade or
-activate), but you could also use different salts:
+让我们假设你想签名两个链接。你的系统有个激活链接，用来激活一个用户账户，
+然后你有一个升级链接，可以让一个用户账户升级为付费用户，这两个链接使用email发送。
+在这两种情况下，如果你签名的都是用户ID，那么该用户可以在激活账户和升级账户时，
+复用URL的可变部分。现在你可以在你签名的地方加上更多信息（如升级或激活的意图），
+但是你也可以用不同的盐：
 
 >>> s1 = URLSafeSerializer('secret-key', salt='activate-salt')
 >>> s1.dumps(42)
@@ -217,25 +205,20 @@ wrong you can also use the unsafe loading::
 The first item in the returned tuple is a boolean that indicates if the
 signature was correct.
 
-Python 3 Notes
+Python 3 提示
 --------------
+在Python 3中，itsdangerous的接口在一开始可能让人困扰。基于它包裹的内部的序列化器，
+函数返回值不一定是unicode字符串还是字节对象。内置的签名器总是基于字节的。
 
-On Python 3 the interface that itsdangerous provides can be confusing at
-first.  Depending on the internal serializer it wraps the return value of
-the functions can alter between unicode strings or bytes objects.  The
-internal signer is always byte based.
-
-This is done to allow the module to operate on different serializers
-independent of how they are implemented.  The module decides on the
-type of the serializer by doing a test serialization of an empty object.
-
+这是为了允许模块操作不同的序列化器，独立于它们是如何被实现的。模块通过执行一个
+空对象的序列化，来决定使用哪种序列化器。
 
 .. include:: ../CHANGES
 
 API
 ---
 
-Signers
+签名器
 ~~~~~~~
 
 .. autoclass:: Signer
@@ -244,14 +227,14 @@ Signers
 .. autoclass:: TimestampSigner
    :members:
 
-Signing Algorithms
+签名算法
 ~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: NoneAlgorithm
 
 .. autoclass:: HMACAlgorithm
 
-Serializers
+序列化器
 ~~~~~~~~~~~
 
 .. autoclass:: Serializer
@@ -270,7 +253,7 @@ Serializers
 
 .. autoclass:: URLSafeTimedSerializer
 
-Exceptions
+异常
 ~~~~~~~~~~
 
 .. autoexception:: BadData
