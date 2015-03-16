@@ -4,10 +4,10 @@ itsdangerous 中文文档
 .. module:: itsdangerous
 
 有时候你只是想向不被信任的环境发送一些数据，但是，如何安全的干这个事呢？
-这个窍门就是签名。使用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
-后的数据传递给别人。当你取回数据时，你可以确保没人篡改过这份数据。  
+解决的方法就是签名。使用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
+后的数据传递给别人。当你取回数据时，你就可以确保没人篡改过这份数据。  
 
-的确，接收者可以破译内容，来看看你的包裹里有什么，但是他们不能修改内容，
+的确，接收者可以破译内容，来看看你的包裹里有什么，但是他们没法修改你的内容，
 除非他们也有你的密钥。所以只要你保管好你的密钥，并且你的密钥足够复杂，
 一切就OK了。
 
@@ -33,35 +33,33 @@ itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模
 -   通常签名信息可以安全地往返与服务端与客户端之间，可以把这个特性用于将服务端的
     状态传递到客户端再传递回来。
 
-Signing Interface
+签名接口
 -----------------
 
-The most basic interface is the signing interface.  The :class:`Signer` class
-can be used to attach a signature to a specific string:
+最基本的接口是签名接口。 :class:`Signer` 类可以用来将一个签名附加到指定的字符串上：
 
 >>> from itsdangerous import Signer
 >>> s = Signer('secret-key')
 >>> s.sign('my string')
 'my string.wh6tMHxLgJqB6oY1uT73iMlyrOA'
     
-The signature is appended to the string, separated by a dot (``.``).  To
-validate the string, use the :meth:`~Signer.unsign` method:
+签名会被加在字符串尾部，中间由句号 (``.``)分隔。验证字符串，使用 :meth:`~Signer.unsign`
+方法：
 
 >>> s.unsign('my string.wh6tMHxLgJqB6oY1uT73iMlyrOA')
 'my string'
 
-If unicode strings are provided, an implicit encoding to utf-8 happens.
-However after unsigning you won't be able to tell if it was unicode or
-a bytestring.
+如果被签名的是一个unicode字符串，那么它将隐式地被转换成utf-8。
+然而，在反签名时，你没法知道它原来是unicode还是字节串。
 
-If the unsigning fails you will get an exception:
+如果反签名失败了，将得到一个异常：
 
 >>> s.unsign('my string.wh6tMHxLgJqB6oY1uT73iMlyrOX')
 Traceback (most recent call last):
   ...
 itsdangerous.BadSignature: Signature "wh6tMHxLgJqB6oY1uT73iMlyrOX" does not match
 
-Signatures with Timestamps
+使用时间戳签名
 --------------------------
 
 If you want to expire signatures you can use the :class:`TimestampSigner`
