@@ -3,8 +3,8 @@ itsdangerous 中文文档
 
 .. module:: itsdangerous
 
-有时候你只是想向不被信任的环境发送一些数据，但是，如何安全的干这个事呢？
-解决的方法就是签名。使用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
+有时候你只是想向不可信的环境发送一些数据，但是，如何安全地干这个事呢？
+解决的方法就是签名。用一个只有你自己知道的密钥，来加密签名你的数据，并把加密
 后的数据传递给别人。当你取回数据时，你就可以确保没人篡改过这份数据。  
 
 的确，接收者可以破译内容，来看看你的包裹里有什么，但是他们没法修改你的内容，
@@ -109,9 +109,8 @@ JSON Web 签名
 -------------------
 
 从“itsdangerous” 0.18版本开始，也支持了JSON Web签名。
-They generally work very similar to the already existing URL safe
-serializer but will emit headers according to the current draft (10) of
-the JSON Web Signature (JWS) [``draft-ietf-jose-json-web-signature``].
+它们的工作方式与之前就有的URL安全序列化器差不多，但是会根据当前JSON Web签名（JWS）草案（10）来生成header。
+ [``draft-ietf-jose-json-web-signature``]
 
 >>> from itsdangerous import JSONWebSignatureSerializer
 >>> s = JSONWebSignatureSerializer('secret-key')
