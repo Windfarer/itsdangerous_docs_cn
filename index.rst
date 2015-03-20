@@ -109,8 +109,8 @@ JSON Web 签名
 -------------------
 
 从“itsdangerous” 0.18版本开始，也支持了JSON Web签名。
-它们的工作方式与之前就有的URL安全序列化器差不多，但是会根据当前JSON Web签名（JWS）草案（10）来生成header。
- [``draft-ietf-jose-json-web-signature``]
+它们的工作方式与之前就有的URL安全序列化器差不多，但是会根据当前
+JSON Web签名（JWS）草案（10） [``draft-ietf-jose-json-web-signature``] 来生成header。 
 
 >>> from itsdangerous import JSONWebSignatureSerializer
 >>> s = JSONWebSignatureSerializer('secret-key')
