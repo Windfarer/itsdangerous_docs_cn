@@ -7,7 +7,8 @@ itsdangerous 中文文档
 
 诚然，接收者可以破译内容，来看看你的包裹里有什么，但他们没办法修改你的内容，除非他们也有你的密钥。所以只要你保管好你的密钥，并且密钥足够复杂，一切就OK了。
 
-itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模块<https://docs.djangoproject.com/en/dev/topics/signing/>`_ 。它也支持JSON Web 签名 (JWS)。这个库采用BSD协议，由Armin Ronacher编写，而大部分设计与实现的版权归Simon Willison和其他的把这个库变为现实的Django爱好者们。
+itsdangerous内部默认使用了HMAC和SHA1来签名，基于 `Django 签名模块
+<https://docs.djangoproject.com/en/dev/topics/signing/>`_。它也支持JSON Web 签名 (JWS)。这个库采用BSD协议，由Armin Ronacher编写，而大部分设计与实现的版权归Simon Willison和其他的把这个库变为现实的Django爱好者们。
 
 安装
 ------------
